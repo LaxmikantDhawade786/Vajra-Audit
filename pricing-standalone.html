@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Security Token Packages</title>
+    <style>
+        :root {
+            --background: hsl(220, 25%, 8%);
+            --foreground: hsl(210, 100%, 98%);
+            --card: hsl(220, 20%, 12%);
+            --card-foreground: hsl(210, 100%, 98%);
+            --primary: hsl(188, 95%, 52%);
+            --primary-foreground: hsl(220, 25%, 8%);
+            --primary-glow: hsl(188, 95%, 65%);
+            --secondary: hsl(16, 90%, 62%);
+            --secondary-foreground: hsl(220, 25%, 8%);
+            --muted: hsl(220, 15%, 20%);
+            --muted-foreground: hsl(210, 20%, 70%);
+            --border: hsl(220, 15%, 18%);
+            --destructive: hsl(0, 84%, 60%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--foreground);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--muted-foreground);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            color: var(--card-foreground);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--card-foreground);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .tokens {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: var(--muted-foreground);
+            font-size: 0.95rem;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--muted-foreground);
+        }
+
+        .features li:before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .cta-button.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+        }
+
+        .cta-button.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .how-it-works {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--card-foreground);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--card-foreground);
+        }
+
+        .step-content p {
+            color: var(--muted-foreground);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="pricing-standalone.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="home.html" style="color: white; text-decoration: none; display: block; margin-bottom: 20px;">← Back
+                to Home</a>
+            <h1>Choose Your <span class="gradient-text">Token Package</span></h1>
+            <p class="subtitle">Purchase tokens to download our security tools. Each token allows you to download the
+                complete security toolkit.</p>
+        </header>
+
+        <div class="pricing-grid" id="pricingGrid">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Choose Your Package</h3>
+                        <p>Select the token package that fits your needs</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Complete Payment</h3>
+                        <p>Secure checkout with industry-standard encryption</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Download Security Tools</h3>
+                        <p>Instantly access and download your security toolkit (.exe)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tokenPackages = [
+            {
+                name: "Basic",
+                icon: "⚡",
+                tokens: 25,
+                price: 500,
+                description: "Perfect for small projects",
+                features: [
+                    "10 security tool downloads",
+                    "Basic vulnerability fixes",
+                    "PDF reports",
+                    "Email support"
+                ],
+                popular: false
+            },
+            {
+                name: "Professional",
+                icon: "🛡️",
+                tokens: 50,
+                price: 2500,
+                description: "Ideal for growing teams",
+                features: [
+                    "50 security tool downloads",
+                    "Advanced threat fixes",
+                    "Priority support",
+                    "API access",
+                    "Custom integrations"
+                ],
+                popular: true
+            },
+            {
+                name: "Enterprise",
+                icon: "👑",
+                tokens: 100,
+                price: 5000,
+                description: "For large-scale operations",
+                features: [
+                    "100 security tool downloads",
+                    "Real-time updates",
+                    "24/7 dedicated support",
+                    "Custom security rules",
+                    "SLA guarantee"
+                ],
+                popular: false
+            }
+        ];
+
+        function createPricingCard(pkg) {
+            const card = document.createElement('div');
+            card.className = `pricing-card ${pkg.popular ? 'popular' : ''}`;
+
+            card.innerHTML = `
+        ${pkg.popular ? '<div class="popular-badge">Most Popular</div>' : ''}
+        <div class="card-header">
+            <div class="icon">${pkg.icon}</div>
+            <h3>${pkg.name}</h3>
+            <a href="payment.html?package=${pkg.name}&price=${pkg.price}&tokens=${pkg.tokens}" class="price-link">
+                <div class="price">₹${pkg.price.toLocaleString()}<span class="price-period">/package</span></div>
+            </a>
+            <div class="tokens">${pkg.tokens} Tokens</div>
+            <p class="description">${pkg.description}</p>
+        </div>
+        <ul class="features">
+            ${pkg.features.map(feature => `<li>${feature}</li>`).join('')}
+        </ul>
+    `;
+
+            return card;
+        }
+
+        function initializePricing() {
+            const grid = document.getElementById('pricingGrid');
+            tokenPackages.forEach(pkg => {
+                grid.appendChild(createPricingCard(pkg));
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializePricing);
+    </script>
+</body>
+
+</html>

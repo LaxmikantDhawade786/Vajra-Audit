@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - Vajra Audit</title>
+    <style>
+        :root {
+            --background: hsl(220, 25%, 8%);
+            --foreground: hsl(210, 100%, 98%);
+            --card: hsl(220, 20%, 12%);
+            --card-foreground: hsl(210, 100%, 98%);
+            --primary: hsl(188, 95%, 52%);
+            --primary-foreground: hsl(220, 25%, 8%);
+            --primary-glow: hsl(188, 95%, 65%);
+            --secondary: hsl(16, 90%, 62%);
+            --secondary-foreground: hsl(220, 25%, 8%);
+            --muted: hsl(220, 15%, 20%);
+            --muted-foreground: hsl(210, 20%, 70%);
+            --border: hsl(220, 15%, 18%);
+            --destructive: hsl(0, 84%, 60%);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download-card {
+            background: var(--card);
+            color: var(--card-foreground);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .download-card h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--muted-foreground);
+            margin-bottom: 30px;
+        }
+
+        .token-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--muted);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 30px;
+        }
+
+        .token-display {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+            color: var(--muted-foreground);
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--primary-foreground);
+            text-decoration: none;
+            display: block;
+        }
+
+        .download-btn.disabled {
+            background: #ccc !important;
+            pointer-events: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .download-btn:hover:not(.disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="download-card">
+            <h1>Thank You for Your Purchase!</h1>
+            <p class="subtitle">Your download is ready. Please use the token below to access your file.</p>
+            
+            <div class="token-section">
+                <div class="token-display" id="tokenDisplay"></div>
+                <button class="copy-btn" onclick="copyToken()">Copy Token</button>
+            </div>
+
+            <a class="download-btn disabled" id="downloadBtn" target="_blank">Download Now</a>
+        </div>
+    </div>
+
+    <script>
+        function generateToken() {
+            const token = [...Array(32)].map(() => Math.random().toString(36)[2]).join('');
+            document.getElementById('tokenDisplay').innerText = token;
+
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.classList.remove('disabled');
+
+            // ✅ Correct GitHub direct download link
+            downloadBtn.href = "https://github.com/Ashwin459/Vajra/releases/download/v1.0/Vajraaudit.exe";
+        }
+
+        function copyToken() {
+            const token = document.getElementById('tokenDisplay').innerText;
+            navigator.clipboard.writeText(token).then(() => {
+                alert('Token copied to clipboard!');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', generateToken);
+    </script>
+</body>
+</html>

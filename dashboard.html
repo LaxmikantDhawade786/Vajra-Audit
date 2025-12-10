@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Vajra Audit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: hsl(220, 25%, 8%);
+            --foreground: hsl(210, 100%, 98%);
+            --card: hsl(220, 20%, 12%);
+            --card-foreground: hsl(210, 100%, 98%);
+            --primary: hsl(188, 95%, 52%);
+            --primary-foreground: hsl(220, 25%, 8%);
+            --primary-glow: hsl(188, 95%, 65%);
+            --secondary: hsl(16, 90%, 62%);
+            --secondary-foreground: hsl(220, 25%, 8%);
+            --muted: hsl(220, 15%, 20%);
+            --muted-foreground: hsl(210, 20%, 70%);
+            --border: hsl(220, 15%, 18%);
+            --destructive: hsl(0, 84%, 60%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(26, 32, 44, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--foreground);
+            text-decoration: none;
+        }
+
+        .navbar-brand svg {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar-menu a {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9375rem;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a.active {
+            color: var(--foreground);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 5rem;
+            padding-bottom: 3rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-description {
+            color: var(--muted-foreground);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-glow));
+        }
+
+        .stat-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--primary-foreground);
+        }
+
+        .stat-content h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--foreground);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--foreground);
+        }
+
+        .action-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px rgba(31, 194, 226, 0.2);
+        }
+
+        .action-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-glow));
+        }
+
+        .action-icon svg {
+            width: 2rem;
+            height: 2rem;
+            color: var(--primary-foreground);
+        }
+
+        .action-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        /* Recent Activity */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .section-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .section-link:hover {
+            color: var(--primary-glow);
+        }
+
+        .activity-list {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .activity-item {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.2s;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-item:hover {
+            background: var(--muted);
+        }
+
+        .activity-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.success {
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .activity-icon.warning {
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .activity-icon.info {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .activity-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .activity-icon.success svg {
+            color: #22c55e;
+        }
+
+        .activity-icon.warning svg {
+            color: #fbbf24;
+        }
+
+        .activity-icon.info svg {
+            color: #3b82f6;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .activity-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .badge-warning {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+
+        /* Button */
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-glow));
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(31, 194, 226, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--foreground);
+        }
+
+        .btn-outline:hover {
+            background: var(--muted);
+            border-color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+        }
+
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-icon svg {
+            width: 100%;
+            height: 100%;
+            color: var(--muted-foreground);
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-description {
+            color: var(--muted-foreground);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--foreground);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            z-index: 100;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 1rem;
+            text-align: center;
+            color: var(--foreground);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--muted);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .stats-grid,
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                Vajra Audit
+            </a>
+            <div class="navbar-menu">
+                <a href="home.html">Home</a>
+                <a href="dashbaord.html" class="active">Dashboard</a>
+                <a href="pricing-standalone.html">Pricing</a>
+                <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="home.html" onclick="toggleMobileMenu()">Home</a>
+        <a href="dashboard.html" onclick="toggleMobileMenu()">Dashboard</a>
+        <a href="pricing-standalone.html" onclick="toggleMobileMenu()">Pricing</a>
+        <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="handleLogout()">Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header fade-in">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-description">Welcome back! Here's your security overview</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Available Tokens</h3>
+                        <div class="stat-value" id="tokenCount">25</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Security Audits</h3>
+                        <div class="stat-value">12</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Reports Generated</h3>
+                        <div class="stat-value">8</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Actions</h2>
+                </div>
+                <div class="quick-actions">
+                    <a href="/download" class="action-card">
+                        <div class="action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" x2="12" y1="15" y2="3"/>
+                            </svg>
+                        </div>
+                        <div class="action-title">Download Tools</div>
+                        <div class="action-description">Get security audit software</div>
+                    </a>
+
+                    <a href="/pricing" class="action-card">
+                        <div class="action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
+                        <div class="action-title">Buy Tokens</div>
+                        <div class="action-description">Purchase more audit tokens</div>
+                    </a>
+
+                    <a href="#" class="action-card" onclick="startNewAudit(event)">
+                        <div class="action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                            </svg>
+                        </div>
+                        <div class="action-title">New Audit</div>
+                        <div class="action-description">Start a security scan</div>
+                    </a>
+
+                    <a href="#" class="action-card" onclick="viewReports(event)">
+                        <div class="action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </div>
+                        <div class="action-title">View Reports</div>
+                        <div class="action-description">Access audit reports</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- User Basic Details -->
+            <div class="section fade-in">
+                <div class="section-header">
+                    <h2 class="section-title">User Basic Details</h2>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Name</div>
+                            <div class="activity-time">John Doe</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Email</div>
+                            <div class="activity-time">john.doe@example.com</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <div class="activity-title">Membership</div>
+                            <div class="activity-time">Premium</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        window.addEventListener('load', async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/auth.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/user', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    document.querySelector('.page-description').textContent = `Welcome back, ${user.name}! Here's your security overview`;
+                    document.getElementById('tokenCount').textContent = user.tokens;
+                } else {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = '/auth.html';
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/auth.html';
+            }
+        });
+
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
