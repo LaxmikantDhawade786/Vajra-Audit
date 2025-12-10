@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://www.vajraaudit.me';
 
 const randomEmail = `testuser_${Math.floor(Math.random() * 100000)}@example.com`;
 const password = 'password123';

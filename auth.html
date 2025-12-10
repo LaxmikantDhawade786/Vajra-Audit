@@ -577,7 +577,7 @@
             buttonText.innerHTML = '<div class="spinner"></div> Signing in...';
 
             try {
-                const response = await fetch('http://localhost:3000/api/login', {
+                const response = await fetch('https://www.vajraaudit.me/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
@@ -645,7 +645,7 @@
             buttonText.innerHTML = '<div class="spinner"></div> Creating account...';
 
             try {
-                const response = await fetch('http://localhost:3000/api/register', {
+                const response = await fetch('vajraaudit.me/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, company, email, password, uniqueId }),

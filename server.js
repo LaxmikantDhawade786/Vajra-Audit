@@ -193,7 +193,7 @@ app.post('/api/update-tokens', authMiddleware, async (req, res) => {
 // Start server (connect DB first, then start)
 (async () => {
   await connectDB();
-  app.listen(port, () => console.log(`🚀 Server running at ${SERVER_BASE_URL}`));
+  app.listen(port, () => console.log(`🚀 Server running at http://localhost:${port}`));
 })();
 
 // Graceful shutdown: close Mongo client if open
