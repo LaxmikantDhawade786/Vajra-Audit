@@ -10,6 +10,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
 
 // Configuration
 const jwtSecret = process.env.JWT_SECRET || 'change_me_dev';
@@ -192,7 +193,7 @@ app.post('/api/update-tokens', authMiddleware, async (req, res) => {
 // Start server (connect DB first, then start)
 (async () => {
   await connectDB();
-  app.listen(port, () => console.log(`🚀 Server running at http://localhost:${port}`));
+  app.listen(port, () => console.log(`🚀 Server running at ${SERVER_BASE_URL}`));
 })();
 
 // Graceful shutdown: close Mongo client if open
