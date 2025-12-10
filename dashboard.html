@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -489,6 +490,7 @@
             from {
                 transform: translateY(100%);
             }
+
             to {
                 transform: translateY(0);
             }
@@ -499,6 +501,7 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -534,20 +537,21 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
             <a href="/" class="navbar-brand">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 </svg>
                 Vajra Audit
             </a>
             <div class="navbar-menu">
-                <a href="home.html">Home</a>
-                <a href="dashbaord.html" class="active">Dashboard</a>
-                <a href="pricing-standalone.html">Pricing</a>
+                <a href="/">Home</a>
+                <a href="/dashbaord" class="active">Dashboard</a>
+                <a href="/pricing">Pricing</a>
                 <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
             </div>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
@@ -556,9 +560,9 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="home.html" onclick="toggleMobileMenu()">Home</a>
-        <a href="dashboard.html" onclick="toggleMobileMenu()">Dashboard</a>
-        <a href="pricing-standalone.html" onclick="toggleMobileMenu()">Pricing</a>
+        <a href="/" onclick="toggleMobileMenu()">Home</a>
+        <a href="/dashboard" onclick="toggleMobileMenu()">Dashboard</a>
+        <a href="/pricing" onclick="toggleMobileMenu()">Pricing</a>
         <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="handleLogout()">Logout</button>
     </div>
 
@@ -577,7 +581,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                             </svg>
                         </div>
                     </div>
@@ -591,7 +595,7 @@
                     <div class="stat-header">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                             </svg>
                         </div>
                     </div>
@@ -605,8 +609,8 @@
                     <div class="stat-header">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
                             </svg>
                         </div>
                     </div>
@@ -626,9 +630,9 @@
                     <a href="/download" class="action-card">
                         <div class="action-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" x2="12" y1="15" y2="3"/>
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" x2="12" y1="15" y2="3" />
                             </svg>
                         </div>
                         <div class="action-title">Download Tools</div>
@@ -638,7 +642,7 @@
                     <a href="/pricing" class="action-card">
                         <div class="action-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                             </svg>
                         </div>
                         <div class="action-title">Buy Tokens</div>
@@ -648,8 +652,8 @@
                     <a href="#" class="action-card" onclick="startNewAudit(event)">
                         <div class="action-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-                                <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                                <path d="M22 12A10 10 0 0 0 12 2v10z" />
                             </svg>
                         </div>
                         <div class="action-title">New Audit</div>
@@ -659,8 +663,8 @@
                     <a href="#" class="action-card" onclick="viewReports(event)">
                         <div class="action-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                             </svg>
                         </div>
                         <div class="action-title">View Reports</div>
@@ -706,10 +710,10 @@
         }
 
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const menu = document.getElementById('mobileMenu');
             const menuBtn = document.querySelector('.mobile-menu-btn');
-            
+
             if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
                 menu.classList.remove('active');
             }
@@ -718,7 +722,7 @@
         window.addEventListener('load', async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                window.location.href = '/auth.html';
+                window.location.href = '/auth';
                 return;
             }
 
@@ -736,13 +740,13 @@
                 } else {
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
-                    window.location.href = '/auth.html';
+                    window.location.href = '/auth';
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                window.location.href = '/auth.html';
+                window.location.href = '/auth';
             }
         });
 
@@ -753,4 +757,5 @@
         }
     </script>
 </body>
+
 </html>

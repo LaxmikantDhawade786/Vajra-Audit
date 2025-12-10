@@ -74,8 +74,10 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'home.html')));
 app.get('/auth', (req, res) => res.sendFile(path.join(__dirname, 'auth.html')));
 app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
 app.get('/pricing', (req, res) => res.sendFile(path.join(__dirname, 'pricing-standalone.html')));
+app.get('/payment', (req, res) => res.sendFile(path.join(__dirname, 'payment.html')));
+app.get('/download', (req, res) => res.sendFile(path.join(__dirname, 'download.html')));
 
-// Health check
+// Health check 
 app.get('/ping', (req, res) => res.json({ ok: true }));
 
 // Registration endpoint

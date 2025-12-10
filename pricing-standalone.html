@@ -283,7 +283,7 @@
 <body>
     <div class="container">
         <header class="header">
-            <a href="home.html" style="color: white; text-decoration: none; display: block; margin-bottom: 20px;">← Back
+            <a href="/home" style="color: white; text-decoration: none; display: block; margin-bottom: 20px;">← Back
                 to Home</a>
             <h1>Choose Your <span class="gradient-text">Token Package</span></h1>
             <p class="subtitle">Purchase tokens to download our security tools. Each token allows you to download the
@@ -379,7 +379,7 @@
         <div class="card-header">
             <div class="icon">${pkg.icon}</div>
             <h3>${pkg.name}</h3>
-            <a href="payment.html?package=${pkg.name}&price=${pkg.price}&tokens=${pkg.tokens}" class="price-link">
+            <a href="payment?package=${pkg.name}&price=${pkg.price}&tokens=${pkg.tokens}" class="price-link">
                 <div class="price">₹${pkg.price.toLocaleString()}<span class="price-period">/package</span></div>
             </a>
             <div class="tokens">${pkg.tokens} Tokens</div>
